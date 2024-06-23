@@ -4,10 +4,10 @@ class Grid {
         this.height = height;
         this.width = width;
         this.grid = new Array(height);
-        for (var i = 0; i < height; i++){
+        for (var i = 0; i < height; i++) {
             this.grid[i] = new Array(width);
-            for (var j = 0; j < width; j++){
-                if (values != undefined && values[i] != undefined && values[i][j] != undefined){
+            for (var j = 0; j < width; j++) {
+                if (values != undefined && values[i] != undefined && values[i][j] != undefined) {
                     this.grid[i][j] = values[i][j];
                 } else {
                     this.grid[i][j] = 0;
@@ -23,7 +23,7 @@ function floodfillFromLocation(grid, i, j, symbol) {
     symbol = parseInt(symbol);
 
     target = grid[i][j];
-    
+
     if (target == symbol) {
         return;
     }
@@ -70,20 +70,20 @@ function fitCellsToContainer(jqGrid, height, width, containerHeight, containerWi
     candidate_width = Math.floor((containerWidth - width) / width);
     size = Math.min(candidate_height, candidate_width);
     size = Math.min(MAX_CELL_SIZE, size);
-    jqGrid.find('.cell').css('height', size + 'px');
-    jqGrid.find('.cell').css('width', size + 'px');
+    jqGrid.find('.arc-cell').css('height', size + 'px');
+    jqGrid.find('.arc-cell').css('width', size + 'px');
 }
 
 function fillJqGridWithData(jqGrid, dataGrid) {
     jqGrid.empty();
     height = dataGrid.height;
     width = dataGrid.width;
-    for (var i = 0; i < height; i++){
+    for (var i = 0; i < height; i++) {
         var row = $(document.createElement('div'));
-        row.addClass('row');
-        for (var j = 0; j < width; j++){
+        row.addClass('arc-row');
+        for (var j = 0; j < width; j++) {
             var cell = $(document.createElement('div'));
-            cell.addClass('cell');
+            cell.addClass('arc-cell');
             cell.attr('x', i);
             cell.attr('y', j);
             setCellSymbol(cell, dataGrid.grid[i][j]);
@@ -94,16 +94,16 @@ function fillJqGridWithData(jqGrid, dataGrid) {
 }
 
 function copyJqGridToDataGrid(jqGrid, dataGrid) {
-    row_count = jqGrid.find('.row').length
+    row_count = jqGrid.find('.arc-row').length
     if (dataGrid.height != row_count) {
         return
     }
-    col_count = jqGrid.find('.cell').length / row_count
+    col_count = jqGrid.find('.arc-cell').length / row_count
     if (dataGrid.width != col_count) {
         return
     }
-    jqGrid.find('.row').each(function(i, row) {
-        $(row).find('.cell').each(function(j, cell) {
+    jqGrid.find('.arc-row').each(function (i, row) {
+        $(row).find('.arc-cell').each(function (j, cell) {
             dataGrid.grid[i][j] = parseInt($(cell).attr('symbol'));
         });
     });
@@ -126,7 +126,7 @@ function setCellSymbol(cell, symbol) {
 }
 
 function changeSymbolVisibility() {
-    $('.cell').each(function(i, cell) {
+    $('.arc-cell').each(function (i, cell) {
         if ($('#show_symbol_numbers').is(':checked')) {
             $(cell).text($(cell).attr('symbol'));
         } else {

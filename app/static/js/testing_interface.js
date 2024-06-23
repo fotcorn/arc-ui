@@ -41,7 +41,7 @@ function getSelectedSymbol() {
 }
 
 function setUpEditionGridListeners(jqGrid) {
-    jqGrid.find('.cell').click(function(event) {
+    jqGrid.find('.arc-cell').click(function (event) {
         cell = $(event.target);
         symbol = getSelectedSymbol();
 
@@ -125,7 +125,7 @@ function loadJSONTask(train, test) {
         output_grid = convertSerializedGridToGridObject(values)
         fillPairPreview(i, input_grid, output_grid);
     }
-    for (var i=0; i < test.length; i++) {
+    for (var i = 0; i < test.length; i++) {
         pair = test[i];
         TEST_PAIRS.push(pair);
     }
@@ -137,14 +137,8 @@ function loadJSONTask(train, test) {
     $('#total_test_input_count_display').html(test.length);
 }
 
-function display_task_name(task_name, task_index, number_of_tasks) {
-    big_space = '&nbsp;'.repeat(4); 
-    document.getElementById('task_name').innerHTML = (
-        'Task name:' + big_space + task_name + big_space + (
-            task_index===null ? '' :
-            ( String(task_index) + ' out of ' + String(number_of_tasks) )
-        )
-    );
+function display_task_name(task_name) {
+    document.getElementById('task_name').innerHTML = task_name;
 }
 
 function loadTaskFromFile(e) {
@@ -154,7 +148,7 @@ function loadTaskFromFile(e) {
         return;
     }
     var reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
         var contents = e.target.result;
 
         try {
@@ -175,10 +169,10 @@ function loadTaskFromFile(e) {
 
 function randomTask() {
     var subset = "training";
-    $.getJSON("https://api.github.com/repos/fchollet/ARC/contents/data/" + subset, function(tasks) {
+    $.getJSON("https://api.github.com/repos/fchollet/ARC/contents/data/" + subset, function (tasks) {
         var task_index = Math.floor(Math.random() * tasks.length)
         var task = tasks[task_index];
-        $.getJSON(task["download_url"], function(json) {
+        $.getJSON(task["download_url"], function (json) {
             try {
                 train = json['train'];
                 test = json['test'];
@@ -191,13 +185,13 @@ function randomTask() {
             infoMsg("Loaded task training/" + task["name"]);
             display_task_name(task['name'], task_index, tasks.length);
         })
-        .error(function(){
-          errorMsg('Error loading task');
-        });
+            .error(function () {
+                errorMsg('Error loading task');
+            });
     })
-    .error(function(){
-      errorMsg('Error loading task list');
-    });
+        .error(function () {
+            errorMsg('Error loading task list');
+        });
 }
 
 function nextTestInput() {
@@ -221,9 +215,9 @@ function submitSolution() {
         errorMsg('Wrong solution.');
         return
     }
-    for (var i = 0; i < reference_output.length; i++){
+    for (var i = 0; i < reference_output.length; i++) {
         ref_row = reference_output[i];
-        for (var j = 0; j < ref_row.length; j++){
+        for (var j = 0; j < ref_row.length; j++) {
             if (ref_row[j] != submitted_output[i][j]) {
                 errorMsg('Wrong solution.');
                 return
@@ -259,9 +253,9 @@ function initializeSelectable() {
         $('.selectable_grid').selectable(
             {
                 autoRefresh: false,
-                filter: '> .row > .cell',
-                start: function(event, ui) {
-                    $('.ui-selected').each(function(i, e) {
+                filter: '> .arc-row > .arc-cell',
+                start: function (event, ui) {
+                    $('.ui-selected').each(function (i, e) {
                         $(e).removeClass('ui-selected');
                     });
                 }
@@ -273,45 +267,45 @@ function initializeSelectable() {
 // Initial event binding.
 
 $(document).ready(function () {
-    $('#symbol_picker').find('.symbol_preview').click(function(event) {
+    $('#symbol_picker').find('.symbol_preview').click(function (event) {
         symbol_preview = $(event.target);
-        $('#symbol_picker').find('.symbol_preview').each(function(i, preview) {
+        $('#symbol_picker').find('.symbol_preview').each(function (i, preview) {
             $(preview).removeClass('selected-symbol-preview');
         })
         symbol_preview.addClass('selected-symbol-preview');
 
         toolMode = $('input[name=tool_switching]:checked').val();
         if (toolMode == 'select') {
-            $('.edition_grid').find('.ui-selected').each(function(i, cell) {
+            $('.edition_grid').find('.ui-selected').each(function (i, cell) {
                 symbol = getSelectedSymbol();
                 setCellSymbol($(cell), symbol);
             });
         }
     });
 
-    $('.edition_grid').each(function(i, jqGrid) {
+    $('.edition_grid').each(function (i, jqGrid) {
         setUpEditionGridListeners($(jqGrid));
     });
 
-    $('.load_task').on('change', function(event) {
+    $('.load_task').on('change', function (event) {
         loadTaskFromFile(event);
     });
 
-    $('.load_task').on('click', function(event) {
-      event.target.value = "";
+    $('.load_task').on('click', function (event) {
+        event.target.value = "";
     });
 
-    $('input[type=radio][name=tool_switching]').change(function() {
+    $('input[type=radio][name=tool_switching]').change(function () {
         initializeSelectable();
     });
-    
-    $('input[type=text][name=size]').on('keydown', function(event) {
+
+    $('input[type=text][name=size]').on('keydown', function (event) {
         if (event.keyCode == 13) {
             resizeOutputGrid();
         }
     });
 
-    $('body').keydown(function(event) {
+    $('body').keydown(function (event) {
         // Copy and paste functionality.
         if (event.which == 67) {
             // Press C
@@ -322,7 +316,7 @@ $(document).ready(function () {
             }
 
             COPY_PASTE_DATA = [];
-            for (var i = 0; i < selected.length; i ++) {
+            for (var i = 0; i < selected.length; i++) {
                 x = parseInt($(selected[i]).attr('x'));
                 y = parseInt($(selected[i]).attr('y'));
                 symbol = parseInt($(selected[i]).attr('symbol'));
@@ -353,7 +347,7 @@ $(document).ready(function () {
                 ys = new Array();
                 symbols = new Array();
 
-                for (var i = 0; i < COPY_PASTE_DATA.length; i ++) {
+                for (var i = 0; i < COPY_PASTE_DATA.length; i++) {
                     xs.push(COPY_PASTE_DATA[i][0]);
                     ys.push(COPY_PASTE_DATA[i][1]);
                     symbols.push(COPY_PASTE_DATA[i][2]);
@@ -361,7 +355,7 @@ $(document).ready(function () {
 
                 minx = Math.min(...xs);
                 miny = Math.min(...ys);
-                for (var i = 0; i < xs.length; i ++) {
+                for (var i = 0; i < xs.length; i++) {
                     x = xs[i];
                     y = ys[i];
                     symbol = symbols[i];

@@ -6,17 +6,6 @@
 
 {% block content %}
 <h1>{{ task.name }} - {{ dataset.name }}</h1>
-<!--
-<div id="modal_bg">
-    <div id="modal">
-        <div>Welcome to the ARC testing interface. <br /> Choose a task file to start, or click on "Random task" to
-            load one from the ARC project on GitHub.</div>
-        <br />
-        <input type="file" class="load_task" />
-        <button onclick="randomTask()" id="random_task_btn">Random task</button>
-    </div>
-</div>
--->
 <div id="workspace">
 
     <div id="demonstration_examples_view">
@@ -36,25 +25,21 @@
         </div>
 
         <div id="evaluation_output_editor">
-
             <div id="load_task_control_btns">
                 <label for="show_symbol_numbers">Show symbol numbers: </label>
                 <input type="checkbox" id="show_symbol_numbers" name="show_symbol_numbers"
                     onchange="changeSymbolVisibility()">
             </div>
 
-
             <div class="row g-3 align-items-center">
                 <div class="col-12">
-                    <label class="visually-hidden" for="output_grid_size">Change grid size</label>
                     <div class="input-group input-group-sm">
                         <span class="input-group-text">Grid size</span>
                         <input type="text" class="form-control form-control-sm" id="output_grid_size" name="size"
                             value="3x3" placeholder="e.g. 3x3">
+                        <button type="button" class="btn btn-sm btn-primary"
+                            onclick="resizeOutputGrid()">Resize</button>
                     </div>
-                </div>
-                <div class="col-12">
-                    <button type="button" class="btn btn-sm btn-primary" onclick="resizeOutputGrid()">Resize</button>
                 </div>
                 <div class="col-12">
                     <button class="btn btn-sm btn-light" onclick="copyFromInput()">Copy from input</button>
@@ -62,22 +47,22 @@
                     <button class="btn btn-sm btn-primary" onclick="submitSolution()">Submit!</button>
                 </div>
 
-                <div class="col-12">
+                <div id="output_grid" class="col-12">
                     <div class="edition_grid selectable_grid">
-                        <div class="row">
-                            <div class="cell" symbol="0" x="0" y="0"></div>
-                            <div class="cell" symbol="0" x="0" y="1"></div>
-                            <div class="cell" symbol="0" x="0" y="2"></div>
+                        <div class="arc-row">
+                            <div class="arc-cell" symbol="0" x="0" y="0"></div>
+                            <div class="arc-cell" symbol="0" x="0" y="1"></div>
+                            <div class="arc-cell" symbol="0" x="0" y="2"></div>
                         </div>
-                        <div class="row">
-                            <div class="cell" symbol="0" x="1" y="0"></div>
-                            <div class="cell" symbol="0" x="1" y="1"></div>
-                            <div class="cell" symbol="0" x="1" y="2"></div>
+                        <div class="arc-row">
+                            <div class="arc-cell" symbol="0" x="1" y="0"></div>
+                            <div class="arc-cell" symbol="0" x="1" y="1"></div>
+                            <div class="arc-cell" symbol="0" x="1" y="2"></div>
                         </div>
-                        <div class="row">
-                            <div class="cell" symbol="0" x="2" y="0"></div>
-                            <div class="cell" symbol="0" x="2" y="1"></div>
-                            <div class="cell" symbol="0" x="2" y="2"></div>
+                        <div class="arc-row">
+                            <div class="arc-cell" symbol="0" x="2" y="0"></div>
+                            <div class="arc-cell" symbol="0" x="2" y="1"></div>
+                            <div class="arc-cell" symbol="0" x="2" y="2"></div>
                         </div>
                     </div>
                 </div>
@@ -134,7 +119,6 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         loadJSONTask({{ task.train | safe }}, {{ task.test | safe }});
-    display_task_name("{{ task.name }}", null, null);
     });
 </script>
 {% endblock %}
