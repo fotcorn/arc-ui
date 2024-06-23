@@ -1,4 +1,3 @@
-
 // Internal state.
 var CURRENT_INPUT_GRID = new Grid(3, 3);
 var CURRENT_OUTPUT_GRID = new Grid(3, 3);
@@ -223,9 +222,47 @@ function submitSolution() {
                 return
             }
         }
-
     }
     infoMsg('Correct solution!');
+
+    // Update the task solved icon
+    document.getElementById('task-solved-icon').innerHTML = '✅';
+
+    // Send AJAX request to mark the task as solved
+    $.ajax({
+        url: window.location.pathname + 'solve/',
+        type: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        success: function (response) {
+            infoMsg('Task marked as solved!');
+
+            // Update the solved count
+            var solvedCountElement = document.getElementById('solved-count');
+            var currentCount = parseInt(solvedCountElement.textContent);
+            solvedCountElement.textContent = currentCount + 1;
+        },
+        error: function (xhr, status, error) {
+            errorMsg('Error marking task as solved: ' + error);
+        }
+    });
+}
+
+// Helper function to get CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }
 
 function fillTestInput(inputGrid) {

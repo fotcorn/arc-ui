@@ -6,7 +6,11 @@
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center">
-    <h1>{{ task.name }} - {{ dataset.name }} ({{ solved_count }}/{{ total_count }} solved)</h1>
+    <h1>
+        <span id="task-solved-icon" class="ms-2">{% if is_solved %}✅{% else %}❌{% endif %}</span>
+        {{ task.name }} - {{ dataset.name }} (<span id="solved-count">{{ solved_count }}</span>/{{ total_count }}
+        solved)
+    </h1>
     <a href="{% url 'arc:random_task' dataset_id=dataset.id %}" class="btn btn-primary">Next Task</a>
 </div>
 <div id="workspace">

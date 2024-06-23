@@ -5,9 +5,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Q, Exists, OuterRef
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import ListView, TemplateView
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 
 from .models import Dataset, Task, SolvedTask
-import random
 
 
 def register_view(request):
@@ -79,10 +80,15 @@ class TaskView(LoginRequiredMixin, TemplateView):
         ).count()
         total_count = Task.objects.filter(dataset=dataset).count()
 
+        is_solved = SolvedTask.objects.filter(
+            user=self.request.user, task=task
+        ).exists()
+
         context["dataset"] = dataset
         context["task"] = task
         context["solved_count"] = solved_count
         context["total_count"] = total_count
+        context["is_solved"] = is_solved
         return context
 
 
@@ -97,3 +103,14 @@ class HomeView(LoginRequiredMixin, ListView):
             ),
             total_count=Count("task"),
         )
+
+
+@require_POST
+@login_required
+def mark_task_solved(request, dataset_id, task_name):
+    dataset = get_object_or_404(Dataset, id=dataset_id)
+    task = get_object_or_404(Task, dataset=dataset, name=task_name)
+
+    SolvedTask.objects.get_or_create(user=request.user, task=task)
+
+    return JsonResponse({"status": "success"})

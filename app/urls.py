@@ -15,4 +15,9 @@ urlpatterns = [
     path(
         "task/<int:dataset_id>/<str:task_name>/", views.TaskView.as_view(), name="task"
     ),
+    path(
+        "task/<int:dataset_id>/<str:task_name>/solve/",
+        views.mark_task_solved,
+        name="mark_task_solved",
+    ),
 ]
