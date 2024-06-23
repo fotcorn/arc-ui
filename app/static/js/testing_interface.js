@@ -301,6 +301,46 @@ function initializeSelectable() {
     }
 }
 
+
+function cropToSelection() {
+    var selected = $('.edition_grid').find('.ui-selected');
+    if (selected.length === 0) {
+        errorMsg('No cells selected. Please select cells before cropping.');
+        return;
+    }
+
+    var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    selected.each(function () {
+        var x = parseInt($(this).attr('x'));
+        var y = parseInt($(this).attr('y'));
+        minX = Math.min(minX, x);
+        minY = Math.min(minY, y);
+        maxX = Math.max(maxX, x);
+        maxY = Math.max(maxY, y);
+    });
+
+    var newHeight = maxX - minX + 1;
+    var newWidth = maxY - minY + 1;
+
+    $('#output_grid_size').val(newHeight + 'x' + newWidth);
+    resizeOutputGrid();
+
+    selected.each(function () {
+        var oldX = parseInt($(this).attr('x'));
+        var oldY = parseInt($(this).attr('y'));
+        var newX = oldX - minX;
+        var newY = oldY - minY;
+        var symbol = $(this).attr('symbol');
+
+        var newCell = $('.edition_grid').find('[x="' + newX + '"][y="' + newY + '"]');
+        setCellSymbol(newCell, symbol);
+    });
+
+    syncFromEditionGridToDataGrid();
+    infoMsg('Grid cropped to selection.');
+}
+
+
 // Initial event binding.
 
 $(document).ready(function () {
