@@ -74,8 +74,15 @@ class TaskView(LoginRequiredMixin, TemplateView):
         dataset = get_object_or_404(Dataset, id=dataset_id)
         task = get_object_or_404(Task, dataset=dataset, name=task_name)
 
+        solved_count = SolvedTask.objects.filter(
+            user=self.request.user, task__dataset=dataset
+        ).count()
+        total_count = Task.objects.filter(dataset=dataset).count()
+
         context["dataset"] = dataset
         context["task"] = task
+        context["solved_count"] = solved_count
+        context["total_count"] = total_count
         return context
 
 
