@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>Datasets</h1>
+<ul>
+    {% for dataset in datasets %}
+    <li>
+        {{ dataset.name }} -
+        Solved: {{ dataset.solved_count }} / {{ dataset.total_count }}
+    </li>
+    {% empty %}
+    <li>No datasets available.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
