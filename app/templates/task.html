@@ -29,7 +29,7 @@
         <div id="evaluation-input-view">
             <div class="text">Test input grid <span id="current_test_input_id_display">0</span>/<span
                     id="total_test_input_count_display">0</span>
-                <button onclick="nextTestInput()">Next test input</button>
+                <button class="btn btn-sm btn-light" onclick="nextTestInput()">Next test input</button>
             </div>
 
             <div id="evaluation_input" class="selectable_grid"></div>
@@ -38,33 +38,31 @@
         <div id="evaluation_output_editor">
 
             <div id="load_task_control_btns">
-                <label for="load_task_file_input">Load task JSON: </label>
-                <input type="file" id="load_task_file_input" class="load_task" style="display: none;" />
-                <input type="button" value="Browse..."
-                    onclick="document.getElementById('load_task_file_input').click();" />
-                <button onclick="randomTask()" id="random_task_btn"> Random... </button>
-                <p>
-                    <label id='task_name' for="random_task_btn"> Task name: </label>
-                <p>
-                    <label for="show_symbol_numbers">Show symbol numbers: </label>
-                    <input type="checkbox" id="show_symbol_numbers" name="show_symbol_numbers"
-                        onchange="changeSymbolVisibility()">
+                <label for="show_symbol_numbers">Show symbol numbers: </label>
+                <input type="checkbox" id="show_symbol_numbers" name="show_symbol_numbers"
+                    onchange="changeSymbolVisibility()">
             </div>
 
-            <div id="edition_view">
-                <div id="editor_grid_control_btns">
-                    <div id="resize_control_btns">
-                        <label for="output_grid_size">Change grid size: </label>
-                        <input type="text" id="output_grid_size" class="grid_size_field" name="size" value="3x3">
-                        <button onclick="resizeOutputGrid()" id="resize_btn">Resize</button>
-                    </div>
 
-                    <button onclick="copyFromInput()">Copy from input</button>
-                    <button onclick="resetOutputGrid()">Reset grid</button>
-                    <button onclick="submitSolution()" id="submit_solution_btn">Submit!</button>
+            <div class="row g-3 align-items-center">
+                <div class="col-12">
+                    <label class="visually-hidden" for="output_grid_size">Change grid size</label>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text">Grid size</span>
+                        <input type="text" class="form-control form-control-sm" id="output_grid_size" name="size"
+                            value="3x3" placeholder="e.g. 3x3">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button type="button" class="btn btn-sm btn-primary" onclick="resizeOutputGrid()">Resize</button>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-sm btn-light" onclick="copyFromInput()">Copy from input</button>
+                    <button class="btn btn-sm btn-light" onclick="resetOutputGrid()">Reset grid</button>
+                    <button class="btn btn-sm btn-primary" onclick="submitSolution()">Submit!</button>
                 </div>
 
-                <div id="output_grid">
+                <div class="col-12">
                     <div class="edition_grid selectable_grid">
                         <div class="row">
                             <div class="cell" symbol="0" x="0" y="0"></div>
@@ -85,7 +83,7 @@
                 </div>
 
 
-                <div id="toolbar">
+                <div class="col-12">
                     <div>
                         <input type="radio" id="tool_edit" name="tool_switching" value="edit" checked>
                         <label for="tool_edit">Edit</label>
@@ -98,24 +96,26 @@
                     </div>
                 </div>
 
-                <div id="symbol_picker">
-                    <div class="symbol_preview symbol_0 selected-symbol-preview" symbol="0"></div>
-                    <div class="symbol_preview symbol_1" symbol="1"></div>
-                    <div class="symbol_preview symbol_2" symbol="2"></div>
-                    <div class="symbol_preview symbol_3" symbol="3"></div>
-                    <div class="symbol_preview symbol_4" symbol="4"></div>
-                    <div class="symbol_preview symbol_5" symbol="5"></div>
-                    <div class="symbol_preview symbol_6" symbol="6"></div>
-                    <div class="symbol_preview symbol_7" symbol="7"></div>
-                    <div class="symbol_preview symbol_8" symbol="8"></div>
-                    <div class="symbol_preview symbol_9" symbol="9"></div>
-                </div>
             </div>
 
-            <div id="error_display"></div>
-            <div id="info_display"></div>
+            <div id="symbol_picker">
+                <div class="symbol_preview symbol_0 selected-symbol-preview" symbol="0"></div>
+                <div class="symbol_preview symbol_1" symbol="1"></div>
+                <div class="symbol_preview symbol_2" symbol="2"></div>
+                <div class="symbol_preview symbol_3" symbol="3"></div>
+                <div class="symbol_preview symbol_4" symbol="4"></div>
+                <div class="symbol_preview symbol_5" symbol="5"></div>
+                <div class="symbol_preview symbol_6" symbol="6"></div>
+                <div class="symbol_preview symbol_7" symbol="7"></div>
+                <div class="symbol_preview symbol_8" symbol="8"></div>
+                <div class="symbol_preview symbol_9" symbol="9"></div>
+            </div>
         </div>
+
+        <div id="error_display"></div>
+        <div id="info_display"></div>
     </div>
+</div>
 </div>
 {% endblock %}
 

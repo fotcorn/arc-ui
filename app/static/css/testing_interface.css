@@ -14,7 +14,6 @@ body {
     width: 450px;
     margin: 10px;
     margin-right: 5px;
-    background-color: #d5d5d5;
 }
 
 #evaluation_view {
@@ -22,7 +21,6 @@ body {
     width: 930px;
     margin: 10px;
     margin-left: 5px;
-    background-color: #d5d5d5;
     min-height: 850px;
 }
 
@@ -42,7 +40,6 @@ body {
     float: left;
     margin-top: 10px;
     margin-bottom: 0;
-    background: white;
     width: 100%;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -52,7 +49,6 @@ body {
     float: left;
     margin-top: 10px;
     margin-bottom: 10px;
-    background: white;
     width: 100%;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -60,26 +56,15 @@ body {
 
 #resize_control_btns {
     width: 100%;
-    float:left;
+    float: left;
     margin-bottom: 10px;
 }
 
-#submit_solution_btn {
-    color: white;
-    border-radius: 4px;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-    background: rgb(28, 184, 65);
+button:focus {
+    outline: 0;
 }
 
-#submit_solution_btn:active {
-  background: blue;
-}
-
-button:focus {outline:0;}
-
-#output_grid {
-
-}
+#output_grid {}
 
 #toolbar {
     float: left;
@@ -102,18 +87,6 @@ button:focus {outline:0;}
     float: left;
 }
 
-label {
-    margin-left: 10px;
-}
-
-input, button {
-    margin-left: 10px;
-}
-
-#resize_btn {
-    margin-left: 0;
-}
-
 /*Task demonstration*/
 
 .pair_preview {
@@ -121,11 +94,13 @@ input, button {
     padding: 5px;
     border-bottom: solid 1px #a1a1a1;
 }
+
 .input_preview {
     height: 200px;
     width: 200px;
     float: left;
 }
+
 .output_preview {
     height: 200px;
     width: 200px;
@@ -135,7 +110,6 @@ input, button {
 
 .text {
     text-align: center;
-    background: white;
     padding-top: 5px;
     padding-bottom: 5px;
     margin-bottom: 10px;
