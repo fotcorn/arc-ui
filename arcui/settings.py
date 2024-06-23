@@ -126,3 +126,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "app.ARCUser"
 
 LOGIN_URL = "arc:login"
+LOGOUT_REDIRECT_URL = "arc:login"
