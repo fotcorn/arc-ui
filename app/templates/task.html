@@ -2,9 +2,11 @@
 
 {% load static %}
 
-{% block title %}ARC Task{% endblock %}
+{% block title %}{{ task.name }} - {{ dataset.name }}{% endblock %}
 
 {% block content %}
+<h1>{{ task.name }} - {{ dataset.name }}</h1>
+<!--
 <div id="modal_bg">
     <div id="modal">
         <div>Welcome to the ARC testing interface. <br /> Choose a task file to start, or click on "Random task" to
@@ -14,6 +16,7 @@
         <button onclick="randomTask()" id="random_task_btn">Random task</button>
     </div>
 </div>
+-->
 <div id="workspace">
 
     <div id="demonstration_examples_view">
@@ -128,4 +131,10 @@
 {% load static %}
 <script src="{% static 'js/common.js' %}"></script>
 <script src="{% static 'js/testing_interface.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        loadJSONTask({{ task.train | safe }}, {{ task.test | safe }});
+    display_task_name("{{ task.name }}", null, null);
+    });
+</script>
 {% endblock %}
